@@ -1,0 +1,116 @@
+import java.util.ArrayList;
+
+public class RentalSystem {
+
+    private ArrayList<Vehicle> fleet;
+
+    public RentalSystem() {
+        fleet = new ArrayList<Vehicle>();
+    }
+
+
+    public void addVehicle(Vehicle v) {
+        fleet.add(v);
+    }
+
+    public boolean removeVehicle(Vehicle v) {
+        return fleet.remove(v);
+    }
+
+    public ArrayList<Vehicle> getAllVehicles() {
+        return new ArrayList<Vehicle>(fleet);
+    }
+
+
+    public ArrayList<Vehicle> getAvailableVehicles() {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : fleet) {
+            if (v.isAvailable()) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+
+    
+    public ArrayList<Vehicle> searchByType(String type) {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : fleet) {
+            if (v.getVehicleType().equalsIgnoreCase(type)) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+
+   
+    public ArrayList<Vehicle> searchByFuelType(String fuelType) {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : fleet) {
+            if (v.getFuelType().equalsIgnoreCase(fuelType)) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+
+  
+    public ArrayList<Vehicle> searchByMaxRate(double maxRate) {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : fleet) {
+            if (v.getDailyRentalRate() <= maxRate) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+
+   
+    public ArrayList<Vehicle> search(String type, String fuelType, double maxRate) {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : fleet) {
+            boolean typeOK = (type == null || type.isEmpty()
+                              || v.getVehicleType().equalsIgnoreCase(type));
+            boolean fuelOK = (fuelType == null || fuelType.isEmpty()
+                              || v.getFuelType().equalsIgnoreCase(fuelType));
+            boolean rateOK = (v.getDailyRentalRate() <= maxRate);
+            boolean availOK = v.isAvailable();
+
+            if (typeOK && fuelOK && rateOK && availOK) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+
+   
+    public boolean rentVehicle(Vehicle v) {
+        return v.rent();
+    }
+
+    public void returnVehicle(Vehicle v) {
+        v.returnVehicle();
+    }
+
+
+    public ArrayList<Vehicle> getMaintenanceDueVehicles() {
+        ArrayList<Vehicle> result = new ArrayList<Vehicle>();
+        for (Vehicle v : fleet) {
+            if (v.isMaintenanceDue()) {
+                result.add(v);
+            }
+        }
+        return result;
+    }
+
+
+    public static void printVehicleList(ArrayList<Vehicle> list) {
+        if (list.isEmpty()) {
+            System.out.println("  (none)");
+            return;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("  " + (i + 1) + ". " + list.get(i));
+        }
+    }
+}

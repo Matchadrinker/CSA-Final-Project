@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static Vehicle selectedVehicle = null;
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         RentalSystem rs = new RentalSystem();
